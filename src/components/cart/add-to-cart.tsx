@@ -2,9 +2,10 @@
 
 import { addItem } from '@/components/cart/actions';
 import { useProduct } from '@/components/product/product-context';
+import { Button } from '@/components/ui/button';
 import { Product, ProductVariant } from '@/lib/shopify/types';
-import { PlusIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
+import { cn } from '@/lib/utils';
+import { Plus } from 'lucide-react';
 import { useActionState } from 'react';
 import { useCart } from './cart-context';
 
@@ -15,45 +16,36 @@ function SubmitButton({
   availableForSale: boolean;
   selectedVariantId: string | undefined;
 }) {
-  const buttonClasses =
-    'relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white';
-  const disabledClasses = 'cursor-not-allowed opacity-60 hover:opacity-60';
-
   if (!availableForSale) {
     return (
-      <button disabled className={clsx(buttonClasses, disabledClasses)}>
+      <Button disabled className="w-full">
         Out Of Stock
-      </button>
+      </Button>
     );
   }
 
   if (!selectedVariantId) {
     return (
-      <button
+      <Button
         aria-label="Please select an option"
         disabled
-        className={clsx(buttonClasses, disabledClasses)}
+        className="w-full"
       >
-        <div className="absolute left-0 ml-4">
-          <PlusIcon className="h-5" />
-        </div>
+        <Plus className="mr-2 h-4 w-4" />
         Add To Cart
-      </button>
+      </Button>
     );
   }
 
   return (
-    <button
+    <Button
+      variant="default"
       aria-label="Add to cart"
-      className={clsx(buttonClasses, {
-        'hover:opacity-90': true
-      })}
+      className="w-full h-[60px]"
     >
-      <div className="absolute left-0 ml-4">
-        <PlusIcon className="h-5" />
-      </div>
+      <Plus className="mr-2 h-4 w-4" />
       Add To Cart
-    </button>
+    </Button>
   );
 }
 
@@ -81,14 +73,24 @@ export function AddToCart({ product }: { product: Product }) {
         addCartItem(finalVariant, product);
         addItemAction();
       }}
+      className="space-y-2"
     >
       <SubmitButton
         availableForSale={availableForSale}
         selectedVariantId={selectedVariantId}
       />
-      <p aria-live="polite" className="sr-only" role="status">
-        {message}
-      </p>
+      {message && (
+        <p
+          aria-live="polite"
+          className={cn(
+            "text-sm",
+            message.includes('Error') ? 'text-destructive' : 'text-muted-foreground'
+          )}
+          role="status"
+        >
+          {message}
+        </p>
+      )}
     </form>
   );
 }

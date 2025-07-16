@@ -1,9 +1,11 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import type { ListItem } from '.';
 import { FilterItem } from './item';
 
@@ -38,26 +40,28 @@ export default function FilterItemDropdown({ list }: { list: ListItem[] }) {
 
   return (
     <div className="relative" ref={ref}>
-      <div
-        onClick={() => {
-          setOpenSelect(!openSelect);
-        }}
-        className="flex w-full items-center justify-between rounded-sm border border-black/30 px-4 py-2 text-sm dark:border-white/30"
+      <Button
+        variant="outline"
+        onClick={() => setOpenSelect(!openSelect)}
+        className="w-full justify-between"
       >
-        <div>{active}</div>
-        <ChevronDownIcon className="h-4" />
-      </div>
+        <span>{active}</span>
+        <ChevronDownIcon className="h-4 w-4" />
+      </Button>
       {openSelect && (
-        <div
-          onClick={() => {
-            setOpenSelect(false);
-          }}
-          className="absolute z-40 w-full rounded-b-md bg-white p-4 shadow-md dark:bg-black"
-        >
-          {list.map((item: ListItem, i) => (
-            <FilterItem key={i} item={item} />
-          ))}
-        </div>
+        <Card className="absolute z-40 w-full mt-1">
+          <CardContent className="p-2">
+            {list.map((item: ListItem, i) => (
+              <div
+                key={i}
+                onClick={() => setOpenSelect(false)}
+                className="w-full"
+              >
+                <FilterItem item={item} />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       )}
     </div>
   );

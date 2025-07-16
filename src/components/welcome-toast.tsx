@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -19,8 +20,11 @@ export function WelcomeToast() {
             This is a high-performance, SSR storefront powered by Shopify, Next.js, and Vercel.{' '}
             <a
               href="https://vercel.com/templates/next.js/nextjs-commerce"
-              className="text-blue-600 hover:underline"
+              className={cn(
+                'text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+              )}
               target="_blank"
+              rel="noopener noreferrer"
             >
               Deploy your own
             </a>

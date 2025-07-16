@@ -1,10 +1,10 @@
 import { CartProvider } from '@/components/cart/cart-context';
 import { Navbar } from '@/components/layout/navbar';
+import { Toaster } from '@/components/ui/sonner';
 import { WelcomeToast } from '@/components/welcome-toast';
 import { getCart } from '@/lib/shopify';
 import { baseUrl } from '@/lib/utils';
 import { ReactNode } from 'react';
-import { Toaster } from 'sonner';
 import './globals.css';
 
 const { SITE_NAME } = process.env;
@@ -36,7 +36,7 @@ export default async function RootLayout({
           <Navbar />
           <main>
             {children}
-            <Toaster closeButton />
+            <Toaster closeButton richColors />
             <WelcomeToast />
           </main>
         </CartProvider>
